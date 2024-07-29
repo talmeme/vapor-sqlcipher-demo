@@ -1,10 +1,23 @@
 # Vapor SQLcipher Demo
 
-This is the Vapor ToDo demo that uses SQLcipher for transparent encryption of SQLite databases.
+This is the Vapor ToDo demo that uses [SQLcipher](https://github.com/sqlcipher/sqlcipher) integrated into
+[SQLite-NIO](https://github.com/talmeme/sqlite-nio/tree/sqlcipher) for transparent SQLite database encryption.
+
+## Pre-requisites
+
+The version of SQLcipher used is [v4.6.0](https://github.com/sqlcipher/sqlcipher/releases/tag/v4.6.0). It, in turn, requires
+[libtomcrypt](https://github.com/libtom/libtomcrypt), which is expected to be installed in `/usr/local`.
 
 ## Action
 
-Build and run. Then add data:
+Build and run the Vapor app.
+
+```bash
+[ DEBUG ] Server starting on http://127.0.0.1:8080 (Vapor/HTTPServer.swift:386)
+[ NOTICE ] Server started on http://127.0.0.1:8080 (Vapor/HTTPServer.swift:413)
+```
+
+Add data.
 
 ```bash
 % curl -H "Content-Type: application/json" \
@@ -17,14 +30,12 @@ Build and run. Then add data:
 Vapor app's logging:
 
 ```
-[ DEBUG ] Server starting on http://127.0.0.1:8080 (Vapor/HTTPServer.swift:386)
-[ NOTICE ] Server started on http://127.0.0.1:8080 (Vapor/HTTPServer.swift:413)
 [ INFO ] POST /todos [request-id: 6E717499-16BB-4C4E-9191-51BB7C99B799] (Vapor/RouteLoggingMiddleware.swift:14)
 [ DEBUG ] Running query [action: create, database-id: sqlite, input: [[id: 24873A58-2634-41E6-A2B5-D3C65F3DD74E, title: "Integrate SQLite-NIO and SQLcipher"]], request-id: 6E717499-16BB-4C4E-9191-51BB7C99B799, schema: todos] (FluentKit/QueryBuilder.swift:335)
 [ DEBUG ] Executing query [binds: [24873A58-2634-41E6-A2B5-D3C65F3DD74E, Integrate SQLite-NIO and SQLcipher], database-id: sqlite, request-id: 6E717499-16BB-4C4E-9191-51BB7C99B799, sql: INSERT INTO "todos" ("id", "title") VALUES (?1, ?2) RETURNING "id"] (SQLiteKit/SQLiteConnection+SQLKit.swift:221)
 ```
 
-Check the database:
+Check the database.
 
 ```bash
 % sqlite3 db.sqlcipher
@@ -52,4 +63,3 @@ sqlite> select * from todos;
 └──────────────────────────────────────┴────────────────────────────────────┘
 sqlite> 
 ```
-
